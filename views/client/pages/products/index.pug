@@ -1,4 +1,18 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/box-head.pug
 block main 
-  h1 San pham
+  .container.my-3 
+    .row
+      .col-12
+        +box-head("Danh sach san pham")
+
+    .row
+      .col-4.mb-3
+        .product-item
+          .inner-image
+            img(src="https://th.bing.com/th/id/OIP.yM00NgtweeMJg83fKHN06AHaHa?rs=1&pid=ImgDetMain",alt="iphone 16")
+          .inner-content 
+            h3.inner-title Iphone 16
+            .inner-price-new 80$
+            .inner-price-old 100$
+            .inner-discount -20%
