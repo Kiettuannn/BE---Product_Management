@@ -1,6 +1,5 @@
 module.exports.index = (req,res) => {
-  // res.render("admin/pages/dashboard/index",{
-  //   pageTitle: "Trang tong quan"
-  // });
-  res.send("San pham")
+  res.render("admin/pages/products/index",{
+    pageTitle: "Trang san pham"
+  });
 }
