@@ -5,6 +5,7 @@ const database = require("./config/database");
 
 
 const route = require("./routes/client/index.route");
+const routeAdmin = require("./routes/admin/index.route");
 database.connect();
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.static("public"));
 
 // Route
 route(app);
+routeAdmin(app);
 
 
 app.listen(port, () => {
