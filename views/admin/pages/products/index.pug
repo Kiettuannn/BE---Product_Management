@@ -27,7 +27,10 @@ block main
             td #{item.title}
             td #{item.price}
             td 
-              a(href="#" class="badge badge-success") Hoat dong
-            td  
+              if(item.status == "active")
+                a(href="#" class="badge badge-success") Hoat dong 
+              else
+                a(href="#" class="badge badge-danger") Dung hoat dong 
+            td 
               button(class="btn btn-warning btn-sm") Sua
               button(class="btn btn-danger btn-sm ml-1") Xoa
