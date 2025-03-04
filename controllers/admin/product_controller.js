@@ -52,3 +52,10 @@ module.exports.changeStatus = async (req,res) => {
   await Product.updateOne({_id: id},{status: status});
   res.redirect("back");
 }
+
+
+// [PATCH] /admin/products/change-multi
+module.exports.changeMulti = async (req,res) => {
+  console.log(req.body);
+  res.send("oke");
+}
