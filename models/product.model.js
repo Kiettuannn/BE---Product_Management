@@ -10,6 +10,7 @@ const productSchema = new mongoose.Schema({
   status: String,
   position: Number,
   deleted: Boolean,
+  deleteAt: Date
 });
 
 // Third Parameter is name table database
