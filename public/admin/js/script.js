@@ -103,6 +103,17 @@ if(formChangeMulti){
     const checkBoxMulti = document.querySelector("[checkbox-multi]");
     const inputsChecked = checkBoxMulti.querySelectorAll("input[name='id']");
 
+    // Lay ra loai cua lua chon de ap dung
+
+    const typeChange = e.target.elements.type.value; // type: la name cua select option
+    if(typeChange == "delete-all"){
+      const isConfirm = confirm("Ban co chac muon xoa khong ?");
+
+      if(!isConfirm){
+        return;
+      }
+    }
+
     if(inputsChecked.length > 0){
       let ids = [];
       const inputIds = formChangeMulti.querySelector("input[name='ids']");

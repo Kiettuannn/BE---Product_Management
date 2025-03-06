@@ -58,8 +58,6 @@ module.exports.changeStatus = async (req,res) => {
 module.exports.changeMulti = async (req,res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
-  console.log(type);
-  console.log(ids);
 
   switch (type) {
     case "active":
@@ -68,6 +66,13 @@ module.exports.changeMulti = async (req,res) => {
     case "inactive":
       await Product.updateMany({_id: { $in: ids}}, {status: "inactive"});
       break;
+    case "delete-all":
+      // Su dung updateMany thay vi deleteMany la de phuc vu cho viec xoa mem
+      await Product.updateMany({_id: {$in: ids}}, 
+        {
+          deleted: true,
+          deleteAt: new Date()
+        })
     default:
       break;
   }
@@ -81,6 +86,8 @@ module.exports.deleteItem = async (req,res) => {
   // Xoa vinh vien
   // await Product.deleteOne({_id: id});
 
+
+  // Xoa mem
   await Product.updateOne({_id: id}, {
     deleted: true,
     deleteAt: new Date()
