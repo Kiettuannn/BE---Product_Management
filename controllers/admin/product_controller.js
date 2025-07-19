@@ -4,106 +4,132 @@ const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 
 // [GET] /admin/products
-module.exports.index = async (req,res) => {
-
+module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
 
   let find = {
     deleted: false,
   };
-  if(req.query.status){
+  if (req.query.status) {
     find.status = req.query.status;
   }
 
-
   // Search
   const objectSearch = searchHelper(req.query);
-  if(objectSearch.regex){
+  if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
 
   // Pagination
   const countProducts = await Product.collection.count(find);
-  let objectPagination = paginationHelper(
-    {
+  let objectPagination = paginationHelper({
       currentPage: 1,
-      limitItem: 2
+      limitItem: 3,
     },
     req.query,
     countProducts
   );
 
-
   const products = await Product.find(find)
-    .sort({position: "desc"})
+    .sort({
+      position: "asc"
+    })
     .limit(objectPagination.limitItem)
     .skip(objectPagination.skip);
 
-    
-  res.render("admin/pages/products/index",{
+  res.render("admin/pages/products/index", {
     pageTitle: "Trang san pham",
     products: products,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
-    pagination: objectPagination
+    pagination: objectPagination,
   });
-}
+};
 
 // [PATCH] /admin/products/change-status/:status/:id
-module.exports.changeStatus = async (req,res) => {
+module.exports.changeStatus = async (req, res) => {
   const id = req.params.id;
   const status = req.params.status;
 
-  await Product.updateOne({_id: id},{status: status});
+  await Product.updateOne({
+    _id: id
+  }, {
+    status: status
+  });
+  req.flash("success", "Update status successfully");
   res.redirect("back");
-}
-
+};
 
 // [PATCH] /admin/products/change-multi
-module.exports.changeMulti = async (req,res) => {
+module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
 
   switch (type) {
     case "active":
-      await Product.updateMany({_id: { $in: ids}}, {status: "active"});
+      await Product.updateMany({
+        _id: {
+          $in: ids
+        }
+      }, {
+        status: "active"
+      });
+      req.flash("success", `Update ${ids.length} products successfully`);
       break;
     case "inactive":
-      await Product.updateMany({_id: { $in: ids}}, {status: "inactive"});
+      await Product.updateMany({
+        _id: {
+          $in: ids
+        }
+      }, {
+        status: "inactive"
+      });
+      req.flash("success", `Update ${ids.length} products successfully`);
       break;
     case "delete-all":
       // Su dung updateMany thay vi deleteMany la de phuc vu cho viec xoa mem
-      await Product.updateMany({_id: {$in: ids}}, 
-        {
-          deleted: true,
-          deleteAt: new Date()
-        });
+      await Product.updateMany({
+        _id: {
+          $in: ids
+        }
+      }, {
+        deleted: true,
+        deleteAt: new Date(),
+      });
+      req.flash("success", `Deleted ${ids.length} products successfully`);
       break;
     case "change-position":
       for (const item of ids) {
-        let [id,position] = item.split("-");
+        let [id, position] = item.split("-");
         position = parseInt(position);
-        await Product.updateOne({_id: id}, {position: position});
+        await Product.updateOne({
+          _id: id
+        }, {
+          position: position
+        });
       }
       break;
     default:
       break;
   }
   res.redirect("back");
-}
+};
 
 // [DELETEE] /admin/products/delete/:id
-module.exports.deleteItem = async (req,res) => {
+module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
 
   // Xoa vinh vien
   // await Product.deleteOne({_id: id});
 
-
   // Xoa mem
-  await Product.updateOne({_id: id}, {
+  await Product.updateOne({
+    _id: id
+  }, {
     deleted: true,
-    deleteAt: new Date()
+    deleteAt: new Date(),
   });
+  req.flash("success", "Deleted successfully");
+
   res.redirect("back");
-}
+};
