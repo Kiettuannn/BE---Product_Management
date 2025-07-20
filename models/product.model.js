@@ -9,8 +9,13 @@ const productSchema = new mongoose.Schema({
   thumbnail: String,
   status: String,
   position: Number,
-  deleted: Boolean,
-  deleteAt: Date
+  deleted: {
+    type: Boolean,
+    default: false
+  },
+  deletedAt: Date
+}, {
+  timestamps: true
 });
 
 // Third Parameter is name table database

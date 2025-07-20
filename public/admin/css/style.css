@@ -26,10 +26,11 @@
 }
 
 .body .main{
-  margin: 15px;
-  position: relative;
-  left: 150px;
-  width: calc(100% - 155px);
+  margin-left: 165px; /* 150px sidebar + 15px margin */
+  margin-top: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  width: calc(100% - 180px); /* 150px sidebar + 30px total margin */
 }
 /* End Body  */
 

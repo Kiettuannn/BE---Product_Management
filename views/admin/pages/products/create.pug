@@ -1,0 +1,98 @@
+extends ../../layouts/default.pug
+
+block main
+  h1(class="mb-4") Them moi san pham
+
+  form(
+  action=`${prefixAdmin}/products/create`
+  id="form-create-product"
+  method="POST"
+  )
+    div(class="form-group")
+      label(for="title") Tieu de 
+      input(
+        type="text"
+        class="form-control"
+        id="title"
+        name="title"
+        required
+      )
+    div(class="form-group")
+      label(for="desc") Mo ta 
+      textarea(
+        class="form-control"
+        id="desc"
+        name="desc"
+        rows="5"
+      )
+    div(class="form-group")
+      label(for="price") Gia
+      input(
+        type="number"
+        class="form-control"
+        id="price"
+        name="price"
+        value="0"
+        min="0"
+      )
+    div(class="form-group")
+      label(for="discount") % Giam gia
+      input(
+        type="number" 
+        class="form-control"
+        id="discount"
+        name="discountPercentage"
+        value="0"
+        min="0"
+      )
+    div(class="form-group")
+      label(for="stock") So luong
+      input(
+        type="number"
+        class="form-control"
+        id="stock"
+        name="stock"
+        value="0"
+        min="0"
+      )
+    div(class="form-group")
+      label(for="thumbnail") Anh
+      input(
+        type="text"
+        class="form-control"
+        id="thumbnail"
+        name="thumbnail"
+      )
+    div(class="form-group")
+    label(for="position") Vi tri
+    input(
+      type="number"
+      class="form-control"
+      id="position"
+      name="position"
+      placeholder="Tu dong tang"
+      min="1"
+    )
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusActive"
+        name="status"
+        value="active"
+        checked
+      )
+      label(class="form-check-label" for="statusActive") Hoat dong
+    div(class="form-group form-check form-check-inline")
+      input(
+        type="radio"
+        class="form-check-input"
+        id="statusInactive"
+        name="status"
+        value="inactive"
+      )
+      label(class="form-check-label" for="statusInactive") Dung hoat dong
+    div(class="form-group")
+      button(type="submit" class="btn btn-primary") Them moi
+
+  script(scr="/admin/js/product.js")
