@@ -86,3 +86,17 @@
   cursor: pointer;
 }
 /* End Show alert  */
+
+/* Image Preview  */
+.image-preview{
+  width: 150px;
+  height: auto;
+  border: 1px solid #ccc;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 5px
+}
+.image-preview[src=""]{
+  display: none;
+}
+/* End Image Preview  */
