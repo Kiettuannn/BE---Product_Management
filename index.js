@@ -21,14 +21,25 @@ const port = process.env.PORT;
 app.use(methodOverride("_method"));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-app.set("views","./views");
-app.set("view engine","pug");
+app.set("views", "./views");
+app.set("view engine", "pug");
+
+
+// Multer
+
+// End multer
 
 // Flash
 app.use(cookieParser('KJDDDEESSLL'));
-app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(session({
+  cookie: {
+    maxAge: 60000
+  }
+}));
 app.use(flash());
 // End Flash
 
