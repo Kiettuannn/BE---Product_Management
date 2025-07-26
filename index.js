@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const flash = require("express-flash")
@@ -42,6 +43,10 @@ app.use(session({
 }));
 app.use(flash());
 // End Flash
+
+// Tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+// End Tinymce
 
 // App Locals Variables
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
