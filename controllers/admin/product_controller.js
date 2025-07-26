@@ -31,10 +31,19 @@ module.exports.index = async (req, res) => {
     countProducts
   );
 
+  // Sort
+  let sort = {};
+  if (req.query.sortKey && req.query.sortValue) {
+    // If sortKey and sortValue are provided, use them for sorting
+    sort[req.query.sortKey] = req.query.sortValue;
+  } else {
+    // Default sort by position in descending order
+    sort.position = "desc";
+  }
+  // End Sort
+
   const products = await Product.find(find)
-    .sort({
-      position: "asc"
-    })
+    .sort(sort)
     .limit(objectPagination.limitItem)
     .skip(objectPagination.skip);
 
@@ -189,10 +198,6 @@ module.exports.editPatch = async (req, res) => {
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
   req.body.stock = parseInt(req.body.stock);
   req.body.position = parseInt(req.body.position);
-
-  if (req.file) {
-    req.body.thumbnail = `/uploads/${req.file.filename}`;
-  }
 
   try {
     await Product.updateOne({

@@ -165,3 +165,49 @@ if (uploadImage) {
   });
 }
 // End Upload Image
+
+// Sort
+const sort = document.querySelector("[sort]");
+if (sort) {
+  let url = new URL(window.location.href);
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+
+  // Set sortKey and sortValue 
+  sortSelect.addEventListener("change", (e) => {
+    const value = e.target.value;
+    const [sortKey, sortValue] = value.split("-");
+
+    url.searchParams.set("sortKey", sortKey);
+    url.searchParams.set("sortValue", sortValue);
+
+    window.location.href = url.href;
+  });
+  // End Set sortKey and sortValue
+
+  // Clear sort
+  sortClear.addEventListener("click", () => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
+  });
+  // End Clear sort
+
+  // Add select option for sort
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+
+  if (sortKey && sortValue) {
+    // Create a string to match the value format
+    const stringSort = `${sortKey}-${sortValue}`;
+
+    // Find the option with value equal to stringSort
+    const optionSelected = sortSelect.querySelector(`option[value="${stringSort}"]`);
+    if (optionSelected) {
+      // Set the selected attribute to true for the matched option
+      optionSelected.selected = true;
+    }
+  }
+  // End Add select option for sort
+}
+// End sort
