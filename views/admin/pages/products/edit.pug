@@ -23,11 +23,11 @@ block main
         value=product.title
       )
     div(class="form-group")
-      label(for="desc") Mo ta 
+      label(for="description") Mo ta 
       textarea(
-        class="form-control"
-        id="desc"
-        name="desc"
+        class="form-control textarea-tinymce"
+        id="description"
+        name="description"
         rows="5"
       ) #{product.description}
     div(class="form-group")

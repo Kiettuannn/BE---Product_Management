@@ -30,9 +30,7 @@ app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 
 
-// Multer
 
-// End multer
 
 // Flash
 app.use(cookieParser('KJDDDEESSLL'));

@@ -97,7 +97,7 @@ if (formChangeMulti) {
   formChangeMulti.addEventListener("submit", (e) => {
     e.preventDefault();
     const checkBoxMulti = document.querySelector("[checkbox-multi]");
-    const inputsChecked = checkBoxMulti.querySelectorAll("input[name='id']");
+    const inputsChecked = checkBoxMulti.querySelectorAll("input[name='id']:checked");
 
     // Lay ra loai cua lua chon de ap dung
 
