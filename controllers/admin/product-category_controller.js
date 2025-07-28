@@ -3,7 +3,7 @@ const systemConfig = require("../../config/system");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const paginationHelper = require("../../helpers/pagination");
 const searchHelper = require("../../helpers/search");
-
+const createTreeHelper = require("../../helpers/createTree");
 // [GET] /admin/product-category
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
@@ -25,7 +25,7 @@ module.exports.index = async (req, res) => {
   const countProductCategory = await ProductCategory.collection.count(find);
   let objectPagination = paginationHelper({
       currentPage: 1,
-      limitItem: 3,
+      limitItem: 6,
     },
     req.query,
     countProductCategory
@@ -48,9 +48,11 @@ module.exports.index = async (req, res) => {
     .limit(objectPagination.limitItem)
     .skip(objectPagination.skip);
 
+
+  const newProductCategories = createTreeHelper.tree(productCategories);
   res.render("admin/pages/product-category/index", {
     pageTitle: "Trang danh muc san pham",
-    productCategories: productCategories,
+    productCategories: newProductCategories,
     filterStatus: filterStatus,
     keyword: objectSearch.keyword,
     pagination: objectPagination,
@@ -59,8 +61,17 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/product-category/create
 module.exports.create = async (req, res) => {
+  let find = {
+    deleted: false,
+  }
+
+
+  const productCategories = await ProductCategory.find(find);
+
+  const newProductCategories = createTreeHelper.tree(productCategories);
   res.render("admin/pages/product-category/create", {
     pageTitle: "Tao moi danh muc san pham",
+    productCategories: newProductCategories,
   });
 }
 

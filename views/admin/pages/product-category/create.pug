@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
 
 block main
   +alert-error(5000)
@@ -21,13 +22,18 @@ block main
         required
       )
     div(class="form-group")
-      label(for="parentId") Thu muc cha
-      input(
-        type="text"
+      label(for="parentId") Danh muc cha
+      select(
         class="form-control"
         id="parentId"
         name="parentId"
       )
+        option(value="") -- Chon danh muc cha --
+        if(productCategories && productCategories.length > 0)
+          +select-tree(productCategories)
+        
+      
+    
     div(class="form-group")
       label(for="description") Mo ta 
       textarea(
