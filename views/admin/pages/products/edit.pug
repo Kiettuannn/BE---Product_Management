@@ -73,7 +73,7 @@ block main
         upload-image-input
       )
       img(
-        src=product.thumbnail
+        src=(product.thumbnail || "")
         upload-image-preview
         class="image-preview"
       )

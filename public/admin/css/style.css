@@ -96,7 +96,17 @@
   padding: 15px;
   border-radius: 5px
 }
-.image-preview[src=""]{
+.image-preview[src=""],
+.image-preview[src="undefined"],
+.image-preview[src="null"],
+.image-preview:not([src]){
+  display: none;
+}
+
+/* Handle broken images */
+img[src=""], 
+img[src="undefined"], 
+img[src="null"]:not(.image-preview) {
   display: none;
 }
 /* End Image Preview  */
