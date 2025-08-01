@@ -1,9 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
 
 block main
   +alert-error(5000)
-  h1(class="mb-4") Them moi san pham
+  h1(class="mb-4") Thêm mới sản phẩm
 
   form(
   action=`${prefixAdmin}/products/create`
@@ -12,7 +13,7 @@ block main
   enctype="multipart/form-data"
   )
     div(class="form-group")
-      label(for="title") Tieu de 
+      label(for="title") Tiêu đề
       input(
         type="text"
         class="form-control"
@@ -21,7 +22,18 @@ block main
         required
       )
     div(class="form-group")
-      label(for="description") Mo ta 
+      label(for="title") Danh mục
+      select(
+        class="form-control"
+        id="productCategoryId"
+        name="productCategoryId"
+      )
+        option(value="") --- Chọn danh mục ---
+        if(newProductCategories && newProductCategories.length > 0)
+          +select-tree(newProductCategories)
+     
+    div(class="form-group")
+      label(for="description") Mô tả
       textarea(
         class="form-control textarea-tinymce"
         id="description"
@@ -29,7 +41,7 @@ block main
         rows="5"
       )
     div(class="form-group")
-      label(for="price") Gia
+      label(for="price") Giá
       input(
         type="number"
         class="form-control"
@@ -39,7 +51,7 @@ block main
         min="0"
       )
     div(class="form-group")
-      label(for="discount") % Giam gia
+      label(for="discount") % Giảm giá
       input(
         type="number" 
         class="form-control"
@@ -49,7 +61,7 @@ block main
         min="0"
       )
     div(class="form-group")
-      label(for="stock") So luong
+      label(for="stock") Số lượng
       input(
         type="number"
         class="form-control"
@@ -61,7 +73,7 @@ block main
     div(class="form-group"
     upload-image
     )
-      label(for="thumbnail") Anh
+      label(for="thumbnail") Ảnh
       input(
         type="file"
         class="form-control-file"
@@ -76,7 +88,7 @@ block main
         class="image-preview"
       )
     div(class="form-group")
-    label(for="position") Vi tri
+    label(for="position") Vị trí
     input(
       type="number"
       class="form-control"
@@ -94,7 +106,7 @@ block main
         value="active"
         checked
       )
-      label(class="form-check-label" for="statusActive") Hoat dong
+      label(class="form-check-label" for="statusActive") Hoạt động
     div(class="form-group form-check form-check-inline")
       input(
         type="radio"
@@ -103,8 +115,8 @@ block main
         name="status"
         value="inactive"
       )
-      label(class="form-check-label" for="statusInactive") Dung hoat dong
+      label(class="form-check-label" for="statusInactive") Dừng hoạt động
     div(class="form-group")
-      button(type="submit" class="btn btn-primary") Them moi
+      button(type="submit" class="btn btn-primary") Thêm mới
 
   script(src="/admin/js/product.js")

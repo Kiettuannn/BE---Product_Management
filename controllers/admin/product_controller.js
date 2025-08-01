@@ -3,6 +3,9 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree");
+
+const ProductCategory = require("../../models/product-category.model");
 
 // [GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -146,14 +149,28 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
-  res.render("admin/pages/products/create", {
-    pageTitle: "Them moi san pham"
-  })
-}
+  try {
+    const productCategories = await ProductCategory.find({
+      deleted: false
+    })
+    if (!productCategories) {
+      console.log("Cannot fount product Categories", error)
+    }
+
+    const newProductCategories = createTreeHelper.tree(productCategories);
+
+    res.render("admin/pages/products/create", {
+      pageTitle: "Them moi san pham",
+      newProductCategories: newProductCategories
+    });
+  } catch (error) {
+    req.flash("error", "Cannot create a product");
+    res.redirect("back");
+  }
+};
 
 // [POST] /admin/products/create
 module.exports.createPost = async (req, res) => {
-  // console.log(req.body);
 
   req.body.price = parseInt(req.body.price);
   req.body.discountPercentage = parseInt(req.body.discountPercentage);
@@ -166,6 +183,8 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
+
+  // console.log(req.body);
   const product = new Product(req.body);
   await product.save();
   res.redirect(`${systemConfig.prefixAdmin}/products`);
@@ -180,11 +199,17 @@ module.exports.edit = async (req, res) => {
     };
 
     const product = await Product.findOne(find);
-    // console.log(product);
+
+    const productCategories = await ProductCategory.find({
+      deleted: false
+    });
+    const newProductCategories = createTreeHelper.tree(productCategories)
+    console.log(newProductCategories)
 
     res.render("admin/pages/products/edit", {
       pageTitle: "Chinh sua san pham",
-      product: product
+      product: product,
+      newProductCategories: newProductCategories
     })
   } catch (error) {
     console.log(error);

@@ -61,18 +61,25 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/product-category/create
 module.exports.create = async (req, res) => {
-  let find = {
-    deleted: false,
+  try {
+    let find = {
+      deleted: false,
+    }
+
+    const productCategories = await ProductCategory.find(find);
+
+    if (!productCategories) {
+      console.log("Cannot found product categories", error)
+    }
+
+    const newProductCategories = createTreeHelper.tree(productCategories);
+    res.render("admin/pages/product-category/create", {
+      pageTitle: "Tao moi danh muc san pham",
+      productCategories: newProductCategories,
+    });
+  } catch (error) {
+    req.flash("error", "Cannot create product category")
   }
-
-
-  const productCategories = await ProductCategory.find(find);
-
-  const newProductCategories = createTreeHelper.tree(productCategories);
-  res.render("admin/pages/product-category/create", {
-    pageTitle: "Tao moi danh muc san pham",
-    productCategories: newProductCategories,
-  });
 }
 
 // [POST] /admin/product-category/create
