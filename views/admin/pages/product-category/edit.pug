@@ -3,6 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
 block main
+  +alert-success(5000)
   +alert-error(5000)
   h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
 
@@ -90,6 +91,7 @@ block main
       )
       label(class="form-check-label" for="statusInactive") Dừng hoạt động
     div(class="form-group")
-      button(type="submit" class="btn btn-primary") Thêm mới
-
+      button(type="submit" class="btn btn-primary") Cập nhật
+  div(class="btn-back")
+    a(href=`${prefixAdmin}/product-category`) Trở lại
   script(src="/admin/js/product.js")

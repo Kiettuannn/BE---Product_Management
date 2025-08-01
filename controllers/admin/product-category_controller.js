@@ -161,13 +161,19 @@ module.exports.changeMulti = async (req, res) => {
 
 // [GET] /admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
-  const id = req.params.id;
   try {
+    const id = req.params.id;
 
     const productCategory = await ProductCategory.findOne({
       _id: id,
       deleted: false
     });
+
+    // Check if product category exists
+    if (!productCategory) {
+      req.flash("error", "Product category not found");
+      return res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+    }
 
     const productCategories = await ProductCategory.find({
       deleted: false
@@ -183,8 +189,47 @@ module.exports.edit = async (req, res) => {
     });
 
   } catch (error) {
-    req.flash("error", "Cannot edit this product-category", error);
+    req.flash("error", "Cannot edit this product-category");
+    res.redirect(`${systemConfig.prefixAdmin}/product-category`);
+  }
+}
+
+// [PATCH] /admin/product-category/edit/:id
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    // Check if product category exists
+    const existingCategory = await ProductCategory.findOne({
+      _id: id,
+      deleted: false
+    });
+
+    if (!existingCategory) {
+      req.flash("error", "Product category not found");
+      return res.redirect("back");
+    }
+
+    // Convert position to integer if provided
+    if (req.body.position) {
+      req.body.position = parseInt(req.body.position);
+    }
+
+    // Update the product category
+    const result = await ProductCategory.updateOne({
+      _id: id
+    }, {
+      $set: req.body
+    });
+
+    if (result.modifiedCount > 0) {
+      req.flash("success", "Update a product category successfully");
+    } else {
+      req.flash("info", "No changes were made");
+    }
+    res.redirect("back");
+  } catch (error) {
+    req.flash("error", "Cannot update product category");
     res.redirect("back");
   }
-
 }
