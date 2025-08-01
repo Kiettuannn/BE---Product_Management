@@ -196,10 +196,11 @@ module.exports.edit = async (req, res) => {
 
 // [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
-  const id = req.params.id;
 
   try {
     // Check if product category exists
+    const id = req.params.id;
+
     const existingCategory = await ProductCategory.findOne({
       _id: id,
       deleted: false
@@ -232,4 +233,31 @@ module.exports.editPatch = async (req, res) => {
     req.flash("error", "Cannot update product category");
     res.redirect("back");
   }
+}
+
+// [PATCH] /admin/product-category/delete/:id
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id
+
+    const existingCategory = await ProductCategory.findOne({
+      _id: id,
+      deleted: false
+    })
+
+    if (!existingCategory) {
+      req.flash("error", "Product category not found");
+      return res.redirect("back");
+    }
+    await ProductCategory.updateOne({
+      _id: id
+    }, {
+      deleted: true,
+      deletedAt: new Date(),
+    });
+    req.flash("success", "Delete a product category successfully");
+  } catch (error) {
+    req.flash("error", "Delete a product category successfully");
+  }
+  res.redirect("back");
 }

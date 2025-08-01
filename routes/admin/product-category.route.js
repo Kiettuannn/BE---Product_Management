@@ -19,4 +19,5 @@ router.patch("/change-status/:status/:id", controller.changeStatus);
 router.patch("/change-multi", controller.changeMulti);
 router.get("/edit/:id", controller.edit);
 router.patch("/edit/:id", upload.single('thumbnail'), uploadCloud.upload, validate.editPost, controller.editPatch);
+router.delete("/delete/:id", controller.delete)
 module.exports = router;
