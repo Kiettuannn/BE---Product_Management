@@ -4,11 +4,11 @@ include ../../mixins/alert.pug
 block main
   +alert-error(5000)
   +alert-success(5000)
-  h1(class="mb-4") Chinh sua san pham
+  h1(class="mb-4") Chỉnh sửa sản phẩm
 
   form(
   action=`${prefixAdmin}/products/edit/${product._id}?_method=PATCH`
-  id="form-edit-product"
+  id="form-edit-product-category"
   method="POST"
   enctype="multipart/form-data"
   )

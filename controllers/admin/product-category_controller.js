@@ -158,3 +158,33 @@ module.exports.changeMulti = async (req, res) => {
   }
   res.redirect("back");
 }
+
+// [GET] /admin/product-category/edit/:id
+module.exports.edit = async (req, res) => {
+  const id = req.params.id;
+  try {
+
+    const productCategory = await ProductCategory.findOne({
+      _id: id,
+      deleted: false
+    });
+
+    const productCategories = await ProductCategory.find({
+      deleted: false
+    });
+
+    // Create product-category tree
+    const newProductCategories = createTreeHelper.tree(productCategories);
+
+    res.render("admin/pages/product-category/edit", {
+      pageTitle: "Chinh sua danh muc san pham",
+      productCategory: productCategory,
+      newProductCategories: newProductCategories
+    });
+
+  } catch (error) {
+    req.flash("error", "Cannot edit this product-category", error);
+    res.redirect("back");
+  }
+
+}
