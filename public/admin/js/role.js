@@ -39,3 +39,24 @@ if (tablePermissions) {
   })
 }
 // End permissions
+
+
+// Permissions Data Default
+const dataRoles = document.querySelector("[data-roles]");
+if (dataRoles) {
+  // Convert to object
+  const roles = JSON.parse(dataRoles.getAttribute("data-roles"));
+
+  const tablePermissions = document.querySelector("[table-permissions]");
+
+  roles.forEach((role, index) => {
+    const permissions = role.permissions;
+
+    permissions.forEach((pm) => {
+      const row = tablePermissions.querySelector(`[data-name=${pm}]`);
+      const input = row.querySelectorAll("input")[index];
+      input.checked = true;
+    })
+  })
+}
+// End Permissions Data Default
