@@ -1,0 +1,9 @@
+extends ../../layouts/default.pug
+
+block main 
+  h1 Danh sách tài khoản
+  div()
+    a(
+      href=`${prefixAdmin}/accounts/create`
+      class="btn btn-outline-success mb-3"
+    ) + Tạo tài khoản
