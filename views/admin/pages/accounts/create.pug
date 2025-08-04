@@ -3,68 +3,77 @@ include ../../mixins/alert.pug
 
 block main
   +alert-error(5000)
+  +alert-success(5000)
   h1(class="mb-4") Thêm mới tài khoản
 
   form(
   action=`${prefixAdmin}/accounts/create`
   id="form-create-role"
   method="POST"
+  enctype="multipart/form-data"
   )
     div(class="form-group")
-      label(for="title") Tên tài khoản
+      label(for="fullName") Tên tài khoản
       input(
         type="text"
         class="form-control"
-        id="title"
-        name="title"
+        id="fullName"
+        name="fullName"
         required
       )
     
     div(class="form-group")
-      label(for="title") Email
+      label(for="email") Email
       input(
         type="text"
         class="form-control"
-        id="title"
-        name="title"
+        id="email"
+        name="email"
         required
       )
     
     div(class="form-group")
-      label(for="title") Mật khẩu
+      label(for="password") Mật khẩu
       input(
         type="text"
         class="form-control"
-        id="title"
-        name="title"
+        id="password"
+        name="password"
         required
       )
     
     div(class="form-group")
-      label(for="title") Số điện thoại
+      label(for="phone") Số điện thoại
       input(
         type="text"
         class="form-control"
-        id="title"
-        name="title"
+        id="phone"
+        name="phone"
         required
       )
     
     div(class="form-group")
       label(for="role_id") Chức vụ
       select(
-
+        class="form-control"
+        id="role_id"
+        name="role_id"
       )
-        option(value="1")
+        option(value="") --- Chọn chức vụ ---
+          each item in roles 
+            option(
+              value= item._id
+            ) #{item.title}
+        
     div(class="form-group"
     upload-image
     )
-      label(for="thumbnail") Ảnh đại diện
+      label(for="avatar") Ảnh đại diện
       input(
         type="file"
         class="form-control-file"
-        id="thumbnail"
-        name="thumbnail"
+        id="avatar"
+        name="avatar"
         accept="image/*"
         upload-image-input
       )

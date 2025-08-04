@@ -11,5 +11,5 @@ router.post("/create", validate.createPost, controller.createPost);
 
 // Permission route
 router.get("/permissions", controller.permissions);
-router.patch("/permissions", controller.permissionsPatch)
+router.patch("/permissions", controller.permissionsPatch);
 module.exports = router;
