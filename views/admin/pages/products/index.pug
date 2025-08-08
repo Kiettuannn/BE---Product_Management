@@ -86,7 +86,9 @@ block main
                       class="badge badge-success"
                       data-status=item.status
                       data-id=item.id
-                      button-change-status
+                      button-change-status=role.permissions.includes("product_edit") ? "" : null
+                      disable=role.permissions.includes("product_edit") ? null : ""
+                      style=role.permissions.includes("product_edit") ? "" : "pointer-events: none; opacity: 0.6;"
                     ) Hoat dong
                   else
                     a(
@@ -94,7 +96,9 @@ block main
                       class="badge badge-danger"
                       data-status=item.status
                       data-id=item.id
-                      button-change-status
+                      button-change-status=role.permissions.includes("product_edit") ? "" : null
+                      disable=role.permissions.includes("product_edit") ? null : ""
+                      style=role.permissions.includes("product_edit") ? "" : "pointer-events: none; opacity: 0.6;"
                     ) Dung hoat dong 
                 td 
                   a(

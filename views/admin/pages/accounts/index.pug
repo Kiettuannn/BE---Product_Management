@@ -54,14 +54,16 @@ block main
                     )
                   td #{item.fullName}
                   td #{item.role.title}
-                  td 
+                  td
                     if(item.status == "active")
                       a(
                         href="javascript:;" 
                         class="badge badge-success"
                         data-status=item.status
                         data-id=item.id
-                        button-change-status
+                        button-change-status=role.permissions.includes("accounts_edit") ? "" : null
+                        disable=role.permissions.includes("accounts_edit") ? null : ""
+                        style=role.permissions.includes("accounts_edit") ? "" : "pointer-events: none; opacity: 0.6;"
                       ) Hoat dong
                     else
                       a(
@@ -69,22 +71,27 @@ block main
                         class="badge badge-danger"
                         data-status=item.status
                         data-id=item.id
-                        button-change-status
+                        button-change-status=role.permissions.includes("accounts_edit") ? "" : null
+                        disable=role.permissions.includes("accounts_edit") ? null : ""
+                        style=role.permissions.includes("accounts_edit") ? "" : "pointer-events: none; opacity: 0.6;"
                       ) Dung hoat dong 
                   td 
-                    a(
-                      class="btn btn-secondary btn-sm"
-                      href=`${prefixAdmin}/accounts/detail/${item.id}`
-                    ) Chi tiet
-                    a(
-                      class="btn btn-warning btn-sm ml-1"
-                      href=`${prefixAdmin}/accounts/edit/${item.id}`
-                    ) Sua
-                    a(
-                      class="btn btn-danger btn-sm ml-1"
-                      button-delete
-                      data-id=item.id 
-                    ) Xoa
+                    if(role.permissions.includes("accounts_view"))
+                      a(
+                        class="btn btn-secondary btn-sm"
+                        href=`${prefixAdmin}/accounts/detail/${item.id}`
+                      ) Chi tiet
+                    if(role.permissions.includes("accounts_edit"))
+                      a(
+                        class="btn btn-warning btn-sm ml-1"
+                        href=`${prefixAdmin}/accounts/edit/${item.id}`
+                      ) Sua
+                    if(role.permissions.includes("accounts_delete"))
+                      a(
+                        class="btn btn-danger btn-sm ml-1"
+                        button-delete
+                        data-id=item.id 
+                      ) Xoa
 
   form(
     action=""
